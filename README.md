@@ -1,10 +1,10 @@
 # Face Detection App with face-api.js 📸
 
-Explore the potential of face recognition with our Face Detection App! Upload images to detect faces, landmarks, expressions, and even predict genders using the face-api.js library. 🚀
+Explore the potential of face recognition with this Face Detection App! Upload images to detect faces, landmarks, expressions, and even predict genders using the face-api.js library. 🚀
 
 ## Introduction 🌟
 
-Curious about faces? This app lets you play around with face detection and analysis using the nifty face-api.js library. It's a low-key way to check out how machines can spot faces, landmarks, expressions, and maybe even tell you if it's a girl or a guy! 😄
+Curious about faces? This app lets you play around with face detection and analysis using the nifty face-api.js library. It's a low-key way to check out how machines can spot faces, landmarks, expressions, and maybe even tell you if it's a girl or a guy! 
 
 ## Features 🎉
 
