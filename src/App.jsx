@@ -11,40 +11,44 @@ function App() {
 
   const detect = async ()=>{
     const detections = await faceapi.detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-    // console.log(detections);
     const displaySize = { width: myImage.current.width, height: myImage.current.height }
     faceapi.matchDimensions(myCanvas.current, displaySize)
+
+
     /* Display detected face bounding boxes */
-//const detections = await faceapi.detectAllFaces(myImage.current)
-// resize the detected boxes in case your displayed image has a different size than the original
-const resizedDetections = faceapi.resizeResults(detections, displaySize)
-// draw detections into the canvas
-faceapi.draw.drawDetections(myCanvas.current, resizedDetections)
+    // resize the detected boxes in case your displayed image has a different size than the original
+    const resizedDetections = faceapi.resizeResults(detections, displaySize)
+    // draw detections into the canvas
+    faceapi.draw.drawDetections(myCanvas.current, resizedDetections)
 
-/* Display face landmarks */
-const detectionsWithLandmarks = await faceapi
-  .detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions())
-  .withFaceLandmarks()
-// resize the detected boxes and landmarks in case your displayed image has a different size than the original
-const resizedResults = faceapi.resizeResults(detectionsWithLandmarks, displaySize)
-// draw detections into the canvas
-faceapi.draw.drawDetections(myCanvas.current, resizedResults)
-// draw the landmarks into the canvas
-faceapi.draw.drawFaceLandmarks(myCanvas.current, resizedResults);
 
-/* Display face expression results */
-const detectionsWithExpressions = await faceapi
-  .detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions())
-  .withFaceLandmarks()
-  .withFaceExpressions()
-// resize the detected boxes and landmarks in case your displayed image has a different size than the original
-const resizedResults2 = faceapi.resizeResults(detectionsWithExpressions, displaySize)
-// draw detections into the canvas
-faceapi.draw.drawDetections(myCanvas.current, resizedResults2)
-// draw a textbox displaying the face expressions with minimum probability into the canvas
-const minProbability = 0.05
-faceapi.draw.drawFaceExpressions(myCanvas.current, resizedResults2, minProbability)
+    /* Display face landmarks */
+    const detectionsWithLandmarks = await faceapi
+      .detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+    // resize the detected boxes and landmarks in case your displayed image has a different size than the original
+    const resizedResults = faceapi.resizeResults(detectionsWithLandmarks, displaySize)
+    // draw detections into the canvas
+    faceapi.draw.drawDetections(myCanvas.current, resizedResults)
+    // draw the landmarks into the canvas
+    faceapi.draw.drawFaceLandmarks(myCanvas.current, resizedResults);
+
+
+    /* Display face expression results */
+    const detectionsWithExpressions = await faceapi
+      .detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceExpressions()
+    // resize the detected boxes and landmarks in case your displayed image has a different size than the original
+    const resizedResults2 = faceapi.resizeResults(detectionsWithExpressions, displaySize)
+    // draw detections into the canvas
+    faceapi.draw.drawDetections(myCanvas.current, resizedResults2)
+    // draw a textbox displaying the face expressions with minimum probability into the canvas
+    const minProbability = 0.05
+    faceapi.draw.drawFaceExpressions(myCanvas.current, resizedResults2, minProbability)
   }
+
+
   useEffect(()=>{
     Promise.all([
       // faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
@@ -72,11 +76,6 @@ faceapi.draw.drawFaceExpressions(myCanvas.current, resizedResults2, minProbabili
       setSelectedImage(file); // Store the selected file in state
       setImageUrl(URL.createObjectURL(file)); // Create a temporary URL for the image
     };
-  
-    const handleUpload = () => {
-      // Upload logic...
-    };
-
   return (
     <div className="App" >
       <input type="file" accept="image/*" onChange={handleImageChange} />
