@@ -30,7 +30,20 @@ const resizedResults = faceapi.resizeResults(detectionsWithLandmarks, displaySiz
 // draw detections into the canvas
 faceapi.draw.drawDetections(myCanvas.current, resizedResults)
 // draw the landmarks into the canvas
-faceapi.draw.drawFaceLandmarks(myCanvas.current, resizedResults)
+faceapi.draw.drawFaceLandmarks(myCanvas.current, resizedResults);
+
+/* Display face expression results */
+const detectionsWithExpressions = await faceapi
+  .detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions())
+  .withFaceLandmarks()
+  .withFaceExpressions()
+// resize the detected boxes and landmarks in case your displayed image has a different size than the original
+const resizedResults2 = faceapi.resizeResults(detectionsWithExpressions, displaySize)
+// draw detections into the canvas
+faceapi.draw.drawDetections(myCanvas.current, resizedResults2)
+// draw a textbox displaying the face expressions with minimum probability into the canvas
+const minProbability = 0.05
+faceapi.draw.drawFaceExpressions(myCanvas.current, resizedResults2, minProbability)
   }
   useEffect(()=>{
     Promise.all([
