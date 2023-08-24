@@ -1,12 +1,13 @@
 import * as faceapi from "face-api.js"
 import './App.css';
-import { useEffect,useRef } from "react";
-import testImage from "./test2.jpg"
+import { useEffect,useRef,useState } from "react";
+// import testImage from "./test2.jpg"
 
 
 function App() {
   const myImage = useRef(null);
   const myCanvas = useRef(null);
+  const [ready , setReady] = useState(false);
 
   const detect = async ()=>{
     const detections = await faceapi.detectAllFaces(myImage.current,new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
@@ -42,19 +43,36 @@ faceapi.draw.drawFaceLandmarks(myCanvas.current, resizedResults)
       faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
       // faceapi.nets.tinyYolov2.loadFromUri('/models')
   ]).then(()=>{
-    if(myImage.current){
-      detect()
-    }
+    setReady(true);
   })
     .catch((err)=>{
       console.log(err);
     })
     
   },[])
+
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [testImage, setImageUrl] = useState(null);
+  
+    const handleImageChange = (event) => {
+      const file = event.target.files[0]; // Get the selected file
+      setSelectedImage(file); // Store the selected file in state
+      setImageUrl(URL.createObjectURL(file)); // Create a temporary URL for the image
+    };
+  
+    const handleUpload = () => {
+      // Upload logic...
+    };
+
   return (
-    <div className="App" style={{display:"flex"}}>
-      <img src={testImage} alt="" style={{width:"500px",height:"400px"}} ref={myImage} />
-      <canvas ref={myCanvas} style={{position:"absolute",width:"500px",height:"400px"}}></canvas>
+    <div className="App" >
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <div style={{display:"flex",justifyContent:"center"}} >
+        {testImage && <img src={testImage} alt="Uploaded" style={{width:"500px",height:"400px",border:"solid 5px #060068",borderRadius: "20px"}} ref={myImage} />}
+        {testImage && <canvas ref={myCanvas} style={{position:"absolute",width:"500px",height:"400px"}}></canvas>}
+      </div>
+      {testImage && ready && <button class="button-28" onClick={detect}>Detect</button>}
+
     </div>
   );
 }
